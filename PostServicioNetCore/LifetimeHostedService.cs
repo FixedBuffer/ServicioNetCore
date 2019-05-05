@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
@@ -16,13 +15,14 @@ namespace PostServicioNetCore
         public LifetimeHostedService(ILogger<LifetimeHostedService> logger, IHostingEnvironment hostingEnvironment)
         {
             this.logger = logger;
-            _path = $"{hostingEnvironment.ContentRootPath}PostServicioCore.txt"; 
+            _path = $"{hostingEnvironment.ContentRootPath}PostServicioCore.txt";
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             try
             {
+                WriteToFile("Inicia el servicio");
                 _timer = new Timer((e) => WriteTimeToFile(), null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
             }
             catch (Exception ex)
@@ -35,7 +35,7 @@ namespace PostServicioNetCore
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _timer?.Change(Timeout.Infinite, 0);
-
+            WriteToFile("Finaliza el servicio");
             return Task.CompletedTask;
         }
 
