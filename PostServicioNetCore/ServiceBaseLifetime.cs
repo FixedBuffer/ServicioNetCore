@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using System;
 using System.ServiceProcess;
 using System.Threading;
@@ -57,19 +56,6 @@ namespace PostServicioNetCore
         {
             ApplicationLifetime.StopApplication();
             base.OnStop();
-        }
-    }
-
-    public static class ServiceBaseLifetimeHostExtensions
-    {
-        public static IHostBuilder UseServiceBaseLifetime(this IHostBuilder hostBuilder)
-        {
-            return hostBuilder.ConfigureServices((hostContext, services) => services.AddSingleton<IHostLifetime, ServiceBaseLifetime>());
-        }
-
-        public static Task RunServiceAsync(this IHostBuilder hostBuilder, CancellationToken cancellationToken = default)
-        {
-            return hostBuilder.UseServiceBaseLifetime().Build().RunAsync(cancellationToken);
         }
     }
 }
