@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace PostServicioNetCore
@@ -12,7 +11,7 @@ namespace PostServicioNetCore
         static async Task Main(string[] args)
         {
             //Consideramos que esta corriendo como servicio si estamos en windows y no hay un debugger atacheado
-            var IsWindowsService = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && !Debugger.IsAttached;
+            var isWindowsService = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && !Debugger.IsAttached;
 
             var host = new HostBuilder()
                  .ConfigureHostConfiguration(configHost =>
@@ -29,14 +28,14 @@ namespace PostServicioNetCore
                     //Configuración de los servicios
                     services.AddHostedService<LifetimeHostedService>();
                 });
-            if (IsWindowsService) //En caso de estar en windows y sin debuger, añadimos al a injeccion de dependencias el servicio
+            if (isWindowsService) //En caso de estar en windows y sin debuger, añadimos al a injeccion de dependencias el servicio
             {
                 await host.RunServiceAsync();
             }
             else
             {
                 await host.RunConsoleAsync();
-            }          
+            }
         }
     }
 }
