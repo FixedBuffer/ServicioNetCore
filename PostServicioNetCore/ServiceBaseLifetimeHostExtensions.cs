@@ -15,11 +15,12 @@ namespace PostServicioNetCore
 
         public static Task RunServiceAsync(this IHostBuilder hostBuilder, CancellationToken cancellationToken = default)
         {
+            //Si es Windows, añadimos el ServiceBaseLifetime a la inyeccion de dependencias
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return hostBuilder.UseServiceBaseLifetime().Build().RunAsync(cancellationToken);
             }
-            else
+            else //Sino, ejecutamos normalmente
             {
                 return hostBuilder.Build().RunAsync(cancellationToken);
             }
