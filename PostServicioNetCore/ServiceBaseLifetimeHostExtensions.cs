@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.InteropServices;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,14 @@ namespace PostServicioNetCore
 
         public static Task RunServiceAsync(this IHostBuilder hostBuilder, CancellationToken cancellationToken = default)
         {
-            return hostBuilder.UseServiceBaseLifetime().Build().RunAsync(cancellationToken);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return hostBuilder.UseServiceBaseLifetime().Build().RunAsync(cancellationToken);
+            }
+            else
+            {
+                return hostBuilder.Build().RunAsync(cancellationToken);
+            }
         }
     }
 }
