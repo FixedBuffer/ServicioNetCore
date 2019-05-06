@@ -10,9 +10,6 @@ namespace PostServicioNetCore
     {
         static async Task Main(string[] args)
         {
-            //Consideramos que esta corriendo como servicio si estamos en windows y no hay un debugger atacheado
-            var isWindowsService = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && !Debugger.IsAttached;
-
             var host = new HostBuilder()
                  .ConfigureHostConfiguration(configHost =>
                  {
