@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -28,7 +28,7 @@ namespace PostServicioNetCore
                     //Configuración de los servicios
                     services.AddHostedService<LifetimeHostedService>();
                 });
-            if (isWindowsService) //En caso de estar en windows y sin debuger, añadimos al a injeccion de dependencias el servicio
+            if (!Debugger.IsAttached) //En caso de no haber debugger, lanzamos como servicio
             {
                 await host.RunServiceAsync();
             }
